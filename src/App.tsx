@@ -5,6 +5,9 @@ import { Home } from "./_root/pages";
 import RootLayout from "./_root/RootLayout";
 import "./globals.css";
 import { Routes, Route } from "react-router-dom";
+// Toaster is a custom component that displays notifications
+// it needs to be placed at the root of the app to work properly
+import { Toaster } from "@/components/ui/toaster";
 
 const App = () => {
   // h-screen tailwind shortcut to set height to vh-100 (viewport height)
@@ -22,6 +25,8 @@ const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
+
+      <Toaster />
     </main>
   );
 };
