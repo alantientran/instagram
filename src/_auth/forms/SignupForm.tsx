@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,12 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
-import { Loader } from "lucide-react";
+import Loader from "@/components/shared/Loader";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 // using shadecn/ui is a UI library that uses tailwind for styling
 
 const SignupForm = () => {
-  const isLoading = true;
+  const isLoading = false;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -32,10 +33,11 @@ const SignupForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignupValidation>) {
+    // await is used to wait for the createUserAccount function to finish before
+    // moving to the next line of code (async)
+    const newUser = await createUserAccount(values);
+    console.log(newUser);
   }
   return (
     <Form {...form}>
@@ -105,7 +107,7 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-          <Button className="shad-button_primary" type="submit">
+          <Button type="submit" className="shad-button_primary">
             {isLoading ? (
               <div className="flex-center gap-2">
                 {" "}
@@ -115,6 +117,16 @@ const SignupForm = () => {
               "Sign up"
             )}{" "}
           </Button>
+
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Already have an account?
+            <Link
+              to="/sign-in"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Log in
+            </Link>
+          </p>
         </form>
       </div>
     </Form>
