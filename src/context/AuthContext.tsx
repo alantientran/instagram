@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/appwrite/api";
 import { IContextType, IUser } from "@/types";
+import { get } from "http";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +10,6 @@ export const INITIAL_USER = {
   name: "",
   username: "",
   email: "",
-  password: "",
   imageURL: "",
   bio: "",
 };
@@ -21,7 +21,6 @@ const INITIAL_STATE = {
   isAuthenticated: false,
   setUser: () => {},
   setIsAuthenticated: () => {},
-  // asy
   checkAuthUser: async () => false as boolean,
 };
 
@@ -43,6 +42,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const checkAuthUser = async () => {
+    setIsLoading(true);
     try {
       // try to get into account
       const currentAccount = await getCurrentUser();
@@ -61,7 +61,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return false;
     } catch (error) {
-      console.log(error);
+      console.log("checkAuthUser failed", error);
       return false;
     } finally {
       setIsLoading(false);
@@ -71,11 +71,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // if the user is not logged in, redirect to sign-in page
     // (!)localStorage.getItem("cookieFallback")
-    if (localStorage.getItem("cookieFallback") === "[]]") navigate("/sign-in");
+    if (localStorage.getItem("cookieFallback") === "[]") navigate("/sign-in");
 
     checkAuthUser();
   }, []);
-  // the ,[] is a dependency array that will only be called when app reloads
+  // the ,[] is a dependency array and will only be called when app reloads
 
   const value = {
     user,

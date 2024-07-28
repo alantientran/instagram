@@ -17,7 +17,7 @@ export async function createUserAccount(user: INewUser) {
     const avatarURL = avatars.getInitials(user.name);
 
     const newUser = await saveUserToDB({
-      accountID: newAccount.$id,
+      accountId: newAccount.$id,
       email: newAccount.email,
       name: newAccount.name,
       imageURL: avatarURL,
@@ -32,7 +32,7 @@ export async function createUserAccount(user: INewUser) {
 }
 
 export async function saveUserToDB(user: {
-  accountID: string;
+  accountId: string;
   email: string;
   name: string;
   imageURL: URL;
@@ -86,6 +86,6 @@ export async function getCurrentUser() {
     // return the first document, which is the user
     return currentUser.documents[0];
   } catch (error) {
-    console.log(error);
+    console.log("get current user error", error);
   }
 }

@@ -7,11 +7,9 @@ const queryClient = new QueryClient();
 // context provider is a way to pass data through the component tree without having to pass props down manually at every level
 export const QueryProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <div>
-      <QueryClientProvider client={queryClient}>
-        {/* render the children */}
-        {children}
-      </QueryClientProvider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      {/* render the children */}
+      {children}
+    </QueryClientProvider>
   );
 };
