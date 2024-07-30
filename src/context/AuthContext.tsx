@@ -79,8 +79,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // if the user is not logged in, redirect to sign-in page
-    // (!)localStorage.getItem("cookieFallback")
-    if (localStorage.getItem("cookieFallback") === "[]") navigate("/sign-in");
+    if (
+      localStorage.getItem("cookieFallback") === "[]" ||
+      localStorage.getItem("cookieFallback") === null
+    )
+      navigate("/sign-in");
 
     checkAuthUser();
   }, []);
