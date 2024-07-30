@@ -75,7 +75,6 @@ const SignupForm = () => {
         title: " Sign up failed 2. Please try again.",
       });
     }
-
     const isLoggedIn = await checkAuthUser();
 
     if (isLoggedIn) {

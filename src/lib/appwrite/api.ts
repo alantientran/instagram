@@ -14,13 +14,13 @@ export async function createUserAccount(user: INewUser) {
       throw new Error("Account not created");
     }
 
-    const avatarURL = avatars.getInitials(user.name);
+    const avatarUrl = avatars.getInitials(user.name);
 
     const newUser = await saveUserToDB({
       accountId: newAccount.$id,
       email: newAccount.email,
       name: newAccount.name,
-      imageURL: avatarURL,
+      imageUrl: avatarUrl,
       username: user.username,
     });
 
@@ -35,21 +35,21 @@ export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
-  imageURL: URL;
+  imageUrl: URL;
   username: string;
 }) {
   try {
     const newUser = await databases.createDocument(
-      appwriteConfig.databaseID,
-      appwriteConfig.userCollectionID,
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
       ID.unique(),
       user
     );
 
     return newUser;
   } catch (error) {
-    console.log(error);
-    return error;
+    console.log("saveUserToDB failure", error);
+    // return error;
   }
 }
 
@@ -74,9 +74,9 @@ export async function getCurrentUser() {
 
     // retrieve current account
     const currentUser = await databases.listDocuments(
-      appwriteConfig.databaseID,
-      appwriteConfig.userCollectionID,
-      [Query.equal("accountID", currentAccount.$id)]
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("accountId", currentAccount.$id)]
     );
 
     if (!currentUser) {
@@ -87,5 +87,6 @@ export async function getCurrentUser() {
     return currentUser.documents[0];
   } catch (error) {
     console.log("get current user error", error);
+    return "error at getCurrentUser";
   }
 }

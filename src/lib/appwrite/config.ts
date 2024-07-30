@@ -10,17 +10,17 @@ export const appwriteConfig = {
   */
   projectID: import.meta.env.VITE_APPWRITE_PROJECT_ID,
   url: import.meta.env.VITE_APPWRITE_URL,
-  databaseID: import.meta.env.VITE_APPWRITE_DATABASE_ID,
-  storageID: import.meta.env.VITE_APPWRITE_STORAGE_ID,
-  userCollectionID: import.meta.env.VITE_APPWRITE_USER_COLLECTION_ID,
-  postCollectionID: import.meta.env.VITE_APPWRITE_POST_COLLECTION_ID,
-  savesCollectionID: import.meta.env.VITE_APPWRITE_SAVES_COLLECTION_ID,
+  databaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID,
+  storageId: import.meta.env.VITE_APPWRITE_STORAGE_ID,
+  userCollectionId: import.meta.env.VITE_APPWRITE_USER_COLLECTION_ID,
+  postCollectionId: import.meta.env.VITE_APPWRITE_POST_COLLECTION_ID,
+  savesCollectionId: import.meta.env.VITE_APPWRITE_SAVES_COLLECTION_ID,
 };
 
 export const client = new Client();
 // set the project ID and the endpoint for the client
-client.setProject(appwriteConfig.projectID);
 client.setEndpoint(appwriteConfig.url);
+client.setProject(appwriteConfig.projectID);
 
 export const account = new Account(client);
 export const databases = new Databases(client);

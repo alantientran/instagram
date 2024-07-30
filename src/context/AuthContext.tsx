@@ -1,6 +1,5 @@
 import { getCurrentUser } from "@/lib/appwrite/api";
-import { IContextType, IUser } from "@/types";
-import { get } from "http";
+import { IUser } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +9,7 @@ export const INITIAL_USER = {
   name: "",
   username: "",
   email: "",
-  imageURL: "",
+  imageUrl: "",
   bio: "",
 };
 
@@ -22,6 +21,15 @@ const INITIAL_STATE = {
   setUser: () => {},
   setIsAuthenticated: () => {},
   checkAuthUser: async () => false as boolean,
+};
+
+type IContextType = {
+  user: IUser;
+  isLoading: boolean;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  checkAuthUser: () => Promise<boolean>;
 };
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
@@ -53,12 +61,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           name: currentAccount.name,
           username: currentAccount.username,
           email: currentAccount.email,
-          imageURL: currentAccount.imageURL,
+          imageUrl: currentAccount.imageUrl,
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
         return true;
       }
+      console.log("checkAuthUser failed", currentAccount);
       return false;
     } catch (error) {
       console.log("checkAuthUser failed", error);
