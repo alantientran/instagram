@@ -87,6 +87,15 @@ export async function getCurrentUser() {
     return currentUser.documents[0];
   } catch (error) {
     console.log("get current user error", error);
-    return "error at getCurrentUser";
+    return error;
+  }
+}
+
+export async function signOutAccount() {
+  try {
+    const session = await account.deleteSession("current");
+    return session;
+  } catch (error) {
+    console.log(error);
   }
 }
